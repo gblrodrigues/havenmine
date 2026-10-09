@@ -1,15 +1,22 @@
 package me.gblrod.havenmine.features.light.command
 
+import me.gblrod.havenmine.core.command.CommandsName
 import me.gblrod.havenmine.core.command.CooldownCommand
-import me.gblrod.havenmine.core.command.CommandsConfig
-import org.bukkit.Sound
+import me.gblrod.havenmine.core.feedback.FeedbackSounds
+import me.gblrod.havenmine.core.service.PlayerFeedbackService
+import me.gblrod.havenmine.features.light.keys.LightMessageKeys
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-class LightCommand : CooldownCommand(
-    cooldownId = CommandsConfig.LIGHT_COMMAND,
-    cooldownSeconds = CommandsConfig.COOLDOWN_COMMAND_SECONDS
+class LightCommand(
+    private val playerFeedbackService: PlayerFeedbackService,
+    cooldownSeconds: Long
+) : CooldownCommand(
+    cooldownId = CommandsName.LIGHT_COMMAND,
+    cooldownSeconds = cooldownSeconds,
+    requireSurvivalOrAdventure = false,
+    playerFeedbackService = playerFeedbackService
 ) {
     private val effect = PotionEffectType.NIGHT_VISION
 
@@ -18,7 +25,7 @@ class LightCommand : CooldownCommand(
     }
 
     override fun shouldStartCooldown(player: Player): Boolean {
-        return player.hasPotionEffect(effect)
+        return !player.hasPotionEffect(effect)
     }
 
     override fun execute(
@@ -28,13 +35,19 @@ class LightCommand : CooldownCommand(
         if (player.hasPotionEffect(effect)) {
             player.removePotionEffect(effect)
 
-            player.sendMessage("§cLuz desabilitada!")
-            player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 0.5f)
+            playerFeedbackService.send(
+                sender = player,
+                messageKey = LightMessageKeys.DISABLED,
+                sound = FeedbackSounds.DISABLED
+            )
         } else {
             player.addPotionEffect(PotionEffect(effect, PotionEffect.INFINITE_DURATION, 1))
 
-            player.sendMessage("§aLuz ativada!")
-            player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 0.5f)
+            playerFeedbackService.send(
+                sender = player,
+                messageKey = LightMessageKeys.ENABLED,
+                sound = FeedbackSounds.SUCCESS
+            )
         }
     }
 }

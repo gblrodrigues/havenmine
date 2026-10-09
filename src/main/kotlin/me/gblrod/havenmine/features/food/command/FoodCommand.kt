@@ -1,38 +1,46 @@
 package me.gblrod.havenmine.features.food.command
 
-import org.bukkit.GameMode
-import org.bukkit.Sound
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
-import org.bukkit.command.CommandSender
+import me.gblrod.havenmine.core.command.CommandsName
+import me.gblrod.havenmine.core.command.CooldownCommand
+import me.gblrod.havenmine.core.feedback.FeedbackSounds
+import me.gblrod.havenmine.core.service.PlayerFeedbackService
+import me.gblrod.havenmine.features.food.keys.FoodMessageKeys
 import org.bukkit.entity.Player
 
-class FoodCommand : CommandExecutor {
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        label: String,
-        args: Array<out String>
-    ): Boolean {
-        if (sender !is Player) {
-            sender.sendMessage("Este comando só pode ser usado por um jogador.")
-            return true
+class FoodCommand(
+    private val playerFeedbackService: PlayerFeedbackService,
+    cooldownSeconds: Long
+) : CooldownCommand(
+    cooldownId = CommandsName.FOOD_COMMAND,
+    cooldownSeconds = cooldownSeconds,
+    playerFeedbackService = playerFeedbackService
+) {
+    override fun shouldStartCooldown(player: Player): Boolean {
+        return needsFoodRestore(player = player)
+    }
+
+    override fun execute(player: Player, args: Array<out String>) {
+        if (!needsFoodRestore(player = player)) {
+            playerFeedbackService.send(
+                sender = player,
+                messageKey = FoodMessageKeys.ERROR,
+                sound = FeedbackSounds.ERROR
+            )
+            return
         }
 
-        val needsRestore = sender.foodLevel < 20 || sender.saturation < 20f || sender.exhaustion > 0f
+        player.foodLevel = 20
+        player.saturation = 20f
+        player.exhaustion = 0f
 
-        if (needsRestore && (sender.gameMode == GameMode.SURVIVAL || sender.gameMode == GameMode.ADVENTURE)) {
-            sender.foodLevel = 20
-            sender.saturation = 20f
-            sender.exhaustion = 0f
+        playerFeedbackService.send(
+            sender = player,
+            messageKey = FoodMessageKeys.ENABLED,
+            sound = FeedbackSounds.SUCCESS
+        )
+    }
 
-            sender.sendMessage("§a§lSUCESSO! §aSua fome foi restaurada!")
-            sender.playSound(sender.location, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 0.5f);
-        } else {
-            sender.sendMessage("§c§lERRO! §cVocê já está saciado!")
-            sender.playSound(sender.location, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 0.5f);
-        }
-
-        return true
+    private fun needsFoodRestore(player: Player): Boolean {
+        return player.foodLevel < 20
     }
 }

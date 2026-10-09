@@ -1,6 +1,8 @@
 package me.gblrod.havenmine
 
-import me.gblrod.havenmine.core.command.CommandsConfig
+import me.gblrod.havenmine.core.command.CommandsName
+import me.gblrod.havenmine.core.service.MessageService
+import me.gblrod.havenmine.core.service.PlayerFeedbackService
 import me.gblrod.havenmine.features.craft.command.CraftCommand
 import me.gblrod.havenmine.features.food.command.FoodCommand
 import me.gblrod.havenmine.features.health.command.HealthCommand
@@ -10,29 +12,38 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class HavenMinePlugin : JavaPlugin() {
     override fun onEnable() {
-        val foodCommand = getCommand(CommandsConfig.FOOD_COMMAND)
-        val healthCommand = getCommand(CommandsConfig.HEALTH_COMMAND)
-        val craftCommand = getCommand(CommandsConfig.CRAFT_COMMAND)
-        val lightCommand = getCommand(CommandsConfig.LIGHT_COMMAND)
+        saveDefaultConfig()
+
+        val defaultCooldownSeconds = config
+            .getLong("cooldowns.default_seconds", 300L)
+            .coerceAtLeast(minimumValue = 0L)
+
+        val messageService = MessageService(config = config)
+        val playerFeedbackService = PlayerFeedbackService(messageService = messageService)
+
+        val foodCommand = getCommand(CommandsName.FOOD_COMMAND)
+        val healthCommand = getCommand(CommandsName.HEALTH_COMMAND)
+        val craftCommand = getCommand(CommandsName.CRAFT_COMMAND)
+        val lightCommand = getCommand(CommandsName.LIGHT_COMMAND)
 
         when {
             foodCommand == null -> {
-                pluginNotFound(name = CommandsConfig.FOOD_COMMAND)
+                pluginNotFound(name = CommandsName.FOOD_COMMAND)
                 return
             }
 
             healthCommand == null -> {
-                pluginNotFound(name = CommandsConfig.HEALTH_COMMAND)
+                pluginNotFound(name = CommandsName.HEALTH_COMMAND)
                 return
             }
 
             craftCommand == null -> {
-                pluginNotFound(name = CommandsConfig.CRAFT_COMMAND)
+                pluginNotFound(name = CommandsName.CRAFT_COMMAND)
                 return
             }
 
             lightCommand == null -> {
-                pluginNotFound(name = CommandsConfig.LIGHT_COMMAND)
+                pluginNotFound(name = CommandsName.LIGHT_COMMAND)
                 return
             }
         }
@@ -41,7 +52,9 @@ class HavenMinePlugin : JavaPlugin() {
             foodCommand = foodCommand,
             healthCommand = healthCommand,
             craftCommand = craftCommand,
-            lightCommand = lightCommand
+            lightCommand = lightCommand,
+            playerFeedbackService = playerFeedbackService,
+            cooldownSeconds = defaultCooldownSeconds
         )
 
         logger.info("HavenMine enabled!")
@@ -58,14 +71,31 @@ class HavenMinePlugin : JavaPlugin() {
     }
 
     private fun commandSetExecutor(
-        foodCommand: PluginCommand?,
-        healthCommand: PluginCommand?,
-        craftCommand: PluginCommand?,
-        lightCommand: PluginCommand?
+        foodCommand: PluginCommand,
+        healthCommand: PluginCommand,
+        craftCommand: PluginCommand,
+        lightCommand: PluginCommand,
+        playerFeedbackService: PlayerFeedbackService,
+        cooldownSeconds: Long
     ) {
-        foodCommand?.setExecutor(FoodCommand())
-        healthCommand?.setExecutor(HealthCommand())
-        craftCommand?.setExecutor(CraftCommand())
-        lightCommand?.setExecutor(LightCommand())
+        craftCommand.setExecutor(CraftCommand(playerFeedbackService = playerFeedbackService))
+        foodCommand.setExecutor(
+            FoodCommand(
+                playerFeedbackService = playerFeedbackService,
+                cooldownSeconds = cooldownSeconds
+            )
+        )
+        healthCommand.setExecutor(
+            HealthCommand(
+                playerFeedbackService = playerFeedbackService,
+                cooldownSeconds = cooldownSeconds
+            )
+        )
+        lightCommand.setExecutor(
+            LightCommand(
+                playerFeedbackService = playerFeedbackService,
+                cooldownSeconds = cooldownSeconds
+            )
+        )
     }
 }

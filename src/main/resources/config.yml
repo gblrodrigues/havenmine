@@ -1,0 +1,17 @@
+cooldowns:
+  default_seconds: 300
+
+messages:
+  light_enabled: "<aqua><bold>LIGHT!</bold></aqua> <yellow>Luz <green>ativada</green> com sucesso.</yellow>"
+  light_disabled: "<aqua><bold>LIGHT!</bold></aqua> <yellow>Luz <red>desativada</red> com sucesso.</yellow>"
+
+  health_enabled: "<aqua><bold>HEALTH!</bold></aqua> <yellow>Vida <green>restaurada</green> com sucesso.</yellow>"
+  health_error: "<aqua><bold>HEALTH!</bold></aqua> <red>Sua vida já está cheia.</red>"
+
+  food_enabled: "<aqua><bold>FOOD!</bold></aqua> <yellow>Fome <green>restaurada</green> com sucesso.</yellow>"
+  food_error: "<aqua><bold>FOOD!</bold></aqua> <red>Você já está saciado.</red>"
+
+  command_cooldown: "<red><bold>ERROR!</bold> Aguarde %time% para utilizar este comando novamente.</red>"
+
+  invalid_game_mode: "<red><bold>ERROR!</bold> Comando indisponível para este modo de jogo.</red>"
+  command_player_only: "<red><bold>ERROR!</bold> Este comando só pode ser usado por um jogador.</red>"

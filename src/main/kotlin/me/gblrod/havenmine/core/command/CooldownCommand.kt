@@ -1,6 +1,8 @@
 package me.gblrod.havenmine.core.command
 
-import org.bukkit.Sound
+import me.gblrod.havenmine.core.command.keys.CommandMessageKeys
+import me.gblrod.havenmine.core.feedback.FeedbackSounds
+import me.gblrod.havenmine.core.service.PlayerFeedbackService
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -8,7 +10,9 @@ import org.bukkit.entity.Player
 
 abstract class CooldownCommand(
     private val cooldownId: String,
-    private val cooldownSeconds: Long
+    private val cooldownSeconds: Long,
+    private val requireSurvivalOrAdventure: Boolean = true,
+    private val playerFeedbackService: PlayerFeedbackService
 ) : CommandExecutor {
     protected open fun canExecuteDuringCooldown(player: Player) = false
     protected open fun shouldStartCooldown(player: Player) = true
@@ -25,7 +29,19 @@ abstract class CooldownCommand(
         args: Array<out String>
     ): Boolean {
         if (sender !is Player) {
-            sender.sendMessage("Este comando só pode ser usado por um jogador.")
+            playerFeedbackService.send(
+                sender = sender,
+                messageKey = CommandMessageKeys.PLAYER_ONLY
+            )
+            return true
+        }
+
+        if (!isValidGameMode(
+                player = sender,
+                requireSurvivalOrAdventure = requireSurvivalOrAdventure,
+                playerFeedbackService = playerFeedbackService
+            )
+        ) {
             return true
         }
 
@@ -37,8 +53,12 @@ abstract class CooldownCommand(
         if (remaining > 0 && !canExecuteDuringCooldown(player = sender)) {
             val time = CommandCooldownManager.formatTime(seconds = remaining)
 
-            sender.sendMessage("§c§lERRO! §cAguarde mais $time para utilizar este comando!")
-            sender.playSound(sender.location, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 0.5f)
+            playerFeedbackService.send(
+                sender = sender,
+                messageKey = CommandMessageKeys.COOLDOWN_ACTIVE,
+                sound = FeedbackSounds.ERROR,
+                placeholders = mapOf("time" to time)
+            )
             return true
         }
 
@@ -47,7 +67,7 @@ abstract class CooldownCommand(
 
         if (startCooldown) {
             CommandCooldownManager.startCooldown(
-                playerId =  sender.uniqueId,
+                playerId = sender.uniqueId,
                 command = cooldownId,
                 durationSeconds = cooldownSeconds
             )
