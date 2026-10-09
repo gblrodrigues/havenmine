@@ -1,0 +1,24 @@
+name: HavenMine
+version: '0.1.0'
+main: me.gblrod.havenmine.HavenMinePlugin
+description: A collection of gameplay systems for Minecraft.
+author: Gabriel Rodrigues
+api-version: '26.3'
+
+commands:
+  food:
+    description: Restores the hunger.
+    aliases:
+      - fome
+  health:
+    description: Restores the health.
+    aliases:
+      - vida
+  craft:
+    description: Open virtual Crafting Table.
+    aliases:
+      - bancada
+  light:
+    description: Activate and deactivate Night Vision.
+    aliases:
+      - luz
