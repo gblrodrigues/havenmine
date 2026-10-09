@@ -23,10 +23,6 @@ object CommandCooldownManager {
         return (remainingMillis + 999) / 1000
     }
 
-    fun isOnCooldown(playerId: UUID, command: String): Boolean {
-        return getRemaining(playerId, command) > 0
-    }
-
     fun formatTime(seconds: Long): String {
         val minutes = seconds / 60
         val remainingSeconds = seconds % 60

@@ -1,32 +1,46 @@
 package me.gblrod.havenmine.features.health.command
 
-import org.bukkit.Sound
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
-import org.bukkit.command.CommandSender
+import me.gblrod.havenmine.core.command.CommandsName
+import me.gblrod.havenmine.core.command.CooldownCommand
+import me.gblrod.havenmine.core.feedback.FeedbackSounds
+import me.gblrod.havenmine.core.service.PlayerFeedbackService
+import me.gblrod.havenmine.features.health.keys.HealthMessageKeys
+import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 
-class HealthCommand : CommandExecutor {
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        label: String,
-        args: Array<out String>
-    ): Boolean {
-        if (sender !is Player) {
-            sender.sendMessage("Este comando só pode ser usado por um jogador.")
-            return true
-        }
-
-        if (sender.health < 20.0) {
-            sender.health = 20.0
-            sender.sendMessage("§a§lSUCESSO! §aSua vida foi restaurada!")
-            sender.playSound(sender.location, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 0.5f);
-        } else {
-            sender.sendMessage("§c§lERRO! §cSua vida já está cheia!")
-            sender.playSound(sender.location, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 0.5f);
-        }
-
-        return true
+class HealthCommand(
+    private val playerFeedbackService: PlayerFeedbackService,
+    cooldownSeconds: Long
+) : CooldownCommand(
+    cooldownId = CommandsName.HEALTH_COMMAND,
+    cooldownSeconds = cooldownSeconds,
+    playerFeedbackService = playerFeedbackService
+) {
+    override fun shouldStartCooldown(player: Player): Boolean {
+        return player.health < getMaxHealth(player = player)
     }
+
+    override fun execute(player: Player, args: Array<out String>) {
+        val maxHealth = getMaxHealth(player)
+
+        if (player.health < maxHealth) {
+            player.health = maxHealth
+
+            playerFeedbackService.send(
+                sender = player,
+                messageKey = HealthMessageKeys.ENABLED,
+                sound = FeedbackSounds.SUCCESS
+            )
+        } else {
+            playerFeedbackService.send(
+                sender = player,
+                messageKey = HealthMessageKeys.ERROR,
+                sound = FeedbackSounds.ERROR
+            )
+        }
+    }
+}
+
+private fun getMaxHealth(player: Player): Double {
+    return player.getAttribute(Attribute.MAX_HEALTH)?.value ?: 20.0
 }
