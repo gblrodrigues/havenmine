@@ -7,6 +7,8 @@ import me.gblrod.havenmine.features.craft.command.CraftCommand
 import me.gblrod.havenmine.features.food.command.FoodCommand
 import me.gblrod.havenmine.features.health.command.HealthCommand
 import me.gblrod.havenmine.features.light.command.LightCommand
+import me.gblrod.havenmine.features.social.command.SocialProfileCommand
+import me.gblrod.havenmine.features.social.keys.SocialMessageKeys
 import org.bukkit.command.PluginCommand
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -21,38 +23,20 @@ class HavenMinePlugin : JavaPlugin() {
         val messageService = MessageService(config = config)
         val playerFeedbackService = PlayerFeedbackService(messageService = messageService)
 
-        val foodCommand = getCommand(CommandsName.FOOD_COMMAND)
-        val healthCommand = getCommand(CommandsName.HEALTH_COMMAND)
-        val craftCommand = getCommand(CommandsName.CRAFT_COMMAND)
-        val lightCommand = getCommand(CommandsName.LIGHT_COMMAND)
+        val foodCommand = getRequiredCommand(CommandsName.FOOD_COMMAND) ?: return
+        val healthCommand = getRequiredCommand(CommandsName.HEALTH_COMMAND) ?: return
+        val craftCommand = getRequiredCommand(CommandsName.CRAFT_COMMAND) ?: return
+        val lightCommand = getRequiredCommand(CommandsName.LIGHT_COMMAND) ?: return
+        val linkedInCommand = getRequiredCommand(CommandsName.LINKEDIN_COMMAND) ?: return
+        val gitHubCommand = getRequiredCommand(CommandsName.GITHUB_COMMAND) ?: return
 
-        when {
-            foodCommand == null -> {
-                pluginNotFound(name = CommandsName.FOOD_COMMAND)
-                return
-            }
-
-            healthCommand == null -> {
-                pluginNotFound(name = CommandsName.HEALTH_COMMAND)
-                return
-            }
-
-            craftCommand == null -> {
-                pluginNotFound(name = CommandsName.CRAFT_COMMAND)
-                return
-            }
-
-            lightCommand == null -> {
-                pluginNotFound(name = CommandsName.LIGHT_COMMAND)
-                return
-            }
-        }
-
-        commandSetExecutor(
+        registerCommandExecutors(
             foodCommand = foodCommand,
             healthCommand = healthCommand,
             craftCommand = craftCommand,
             lightCommand = lightCommand,
+            linkedInCommand = linkedInCommand,
+            gitHubCommand = gitHubCommand,
             playerFeedbackService = playerFeedbackService,
             cooldownSeconds = defaultCooldownSeconds
         )
@@ -64,21 +48,29 @@ class HavenMinePlugin : JavaPlugin() {
         logger.info("HavenMine disabled!")
     }
 
-    private fun pluginNotFound(name: String) {
-        logger.severe("Command '$name' is missing from plugin.yml.")
-        server.pluginManager.disablePlugin(this)
-        return
-    }
-
-    private fun commandSetExecutor(
+    private fun registerCommandExecutors(
         foodCommand: PluginCommand,
         healthCommand: PluginCommand,
         craftCommand: PluginCommand,
         lightCommand: PluginCommand,
+        linkedInCommand: PluginCommand,
+        gitHubCommand: PluginCommand,
         playerFeedbackService: PlayerFeedbackService,
         cooldownSeconds: Long
     ) {
         craftCommand.setExecutor(CraftCommand(playerFeedbackService = playerFeedbackService))
+        linkedInCommand.setExecutor(
+            SocialProfileCommand(
+                playerFeedbackService = playerFeedbackService,
+                messageKey = SocialMessageKeys.LINKEDIN
+            )
+        )
+        gitHubCommand.setExecutor(
+            SocialProfileCommand(
+                playerFeedbackService = playerFeedbackService,
+                messageKey = SocialMessageKeys.GITHUB
+            )
+        )
         foodCommand.setExecutor(
             FoodCommand(
                 playerFeedbackService = playerFeedbackService,
@@ -97,5 +89,16 @@ class HavenMinePlugin : JavaPlugin() {
                 cooldownSeconds = cooldownSeconds
             )
         )
+    }
+
+    private fun getRequiredCommand(name: String): PluginCommand? {
+        val command = getCommand(name)
+
+        if (command != null) return command
+
+        logger.severe("Command '$name' is missing from plugin.yml.")
+        server.pluginManager.disablePlugin(this)
+
+        return null
     }
 }
