@@ -6,7 +6,7 @@ import org.bukkit.Sound
 object FeedbackSounds {
     val SUCCESS = FeedbackSound(
         sound = Sound.BLOCK_NOTE_BLOCK_BELL,
-        pitch = 0.7f
+        pitch = 0.5f
     )
 
     val ERROR = FeedbackSound(

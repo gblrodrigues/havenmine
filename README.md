@@ -23,6 +23,8 @@ This is a personal hobby and portfolio project currently under development.
 | `/health`         | Restores the player's health.                                                  |
 | `/craft`          | Opens a virtual crafting table.                                                |
 | `/light`          | Toggles night vision. The effect can be disabled while its cooldown is active. |
+| `/linkedin`       | View my LinkedIn profile.                                                      |
+| `/github`         | View my GitHub profile.                                                        |
 
 Hunger and health commands are restricted to Survival and Adventure modes. The light command is available in all game modes.
 
@@ -34,7 +36,12 @@ Hunger and health commands are restricted to Survival and Adventure modes. The l
 * **Command infrastructure:** Shared cooldown handling and game mode validation.
 
 ## Preview
+
+### Gameplay Demo
 https://github.com/user-attachments/assets/bfa5b388-f25f-4c6f-a6b2-2f88eea4fc9e
+
+### Social Commands
+![LinkedIn and GitHub commands](https://github.com/user-attachments/assets/c4429050-ccc5-4bcb-868e-82b326265869)
 
 ## Technologies Used
 
@@ -51,7 +58,7 @@ https://github.com/user-attachments/assets/bfa5b388-f25f-4c6f-a6b2-2f88eea4fc9e
 
 HavenMine uses a feature-oriented package structure with shared components for common functionality.
 
-* **Feature-based organization:** Commands are grouped by feature, such as `food`, `health`, `craft`, and `light`.
+* **Feature-based organization:** Commands are grouped by feature, such as `food`, `health`, `craft`, `light`, and `social`.
 * **Reusable command handling:** A shared `CooldownCommand` base class and `CommandCooldownManager` handle cooldown behavior without duplicating the same logic across commands.
 * **Centralized feedback:** `MessageService` and `PlayerFeedbackService` manage configurable messages, MiniMessage formatting, and reusable sound presets.
 * **Configuration:** Command cooldown durations and player-facing messages can be customized through `config.yml`.

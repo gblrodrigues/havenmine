@@ -22,3 +22,14 @@ commands:
     description: Activate and deactivate Night Vision.
     aliases:
       - luz
+
+  linkedin:
+    description: View my LinkedIn profile
+    aliases:
+      - linked
+      - in
+
+  github:
+    description: View my GitHub profile
+    aliases:
+      - git
