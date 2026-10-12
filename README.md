@@ -16,32 +16,46 @@ This is a personal hobby and portfolio project currently under development.
 ## Features
 
 ### Utility Commands
-
-| Command           | Description                                                                    |
-| ----------------- | ------------------------------------------------------------------------------ |
-| `/food`           | Restores hunger, saturation, and exhaustion.                                   |
-| `/health`         | Restores the player's health.                                                  |
-| `/craft`          | Opens a virtual crafting table.                                                |
-| `/light`          | Toggles night vision. The effect can be disabled while its cooldown is active. |
-| `/linkedin`       | View my LinkedIn profile.                                                      |
-| `/github`         | View my GitHub profile.                                                        |
+| Command | Description |
+|---|---|
+| `/food` | Restores hunger, saturation, and exhaustion. |
+| `/health` | Restores the player's health. |
+| `/craft` | Opens a virtual crafting table. |
+| `/light` | Toggles night vision. The effect can be disabled while its cooldown is active. |
 
 Hunger and health commands are restricted to Survival and Adventure modes. The light command is available in all game modes.
 
+### Social Commands
+
+| Command | Description |
+|---|---|
+| `/linkedin` | Displays a clickable link to my LinkedIn profile. |
+| `/github` | Displays a clickable link to my GitHub profile. |
+
+### Cosmetics
+
+| Command | Description |
+|---|---|
+| `/cosmetics` | Opens the cosmetics GUI. |
+
+- **Movement particle trails:** Select and equip particle effects that appear near the player's feet while walking, running, and jumping.
+- **Cosmetics GUI:** Browse movement trails and toggle the currently equipped effect.
+- **Single active trail:** Each player can equip one movement trail at a time.
+
 ### Shared Systems
 
-* **Configurable cooldowns:** Set the default cooldown duration through `config.yml`.
-* **Customizable messages:** Configure command messages using MiniMessage formatting.
-* **Sound feedback:** Reusable sound presets for success, errors, and other actions.
-* **Command infrastructure:** Shared cooldown handling and game mode validation.
+- **Configurable cooldowns:** Set the default cooldown duration through `config.yml`.
+- **Customizable messages and GUI text:** Configure player-facing messages, menu titles, item names, and lore using `config.yml` and MiniMessage.
+- **Sound feedback:** Reusable sound presets for success, errors, menu interactions, and cosmetic selection.
+- **Command infrastructure:** Shared cooldown handling, game mode validation, and command registration.
 
 ## Preview
 
-### Gameplay Demo
-https://github.com/user-attachments/assets/bfa5b388-f25f-4c6f-a6b2-2f88eea4fc9e
+### Cosmetics Demo
+https://github.com/user-attachments/assets/f9854164-6107-4a97-8e64-3eec91583e94
 
-### Social Commands
-![LinkedIn and GitHub commands](https://github.com/user-attachments/assets/c4429050-ccc5-4bcb-868e-82b326265869)
+### Utility Commands Demo
+https://github.com/user-attachments/assets/bfa5b388-f25f-4c6f-a6b2-2f88eea4fc9e
 
 ## Technologies Used
 
@@ -58,11 +72,12 @@ https://github.com/user-attachments/assets/bfa5b388-f25f-4c6f-a6b2-2f88eea4fc9e
 
 HavenMine uses a feature-oriented package structure with shared components for common functionality.
 
-* **Feature-based organization:** Commands are grouped by feature, such as `food`, `health`, `craft`, `light`, and `social`.
+* **Feature-based organization:** Commands and gameplay systems are grouped by feature, including `food`, `health`, `craft`, `light`, `social`, and `cosmetics`
 * **Reusable command handling:** A shared `CooldownCommand` base class and `CommandCooldownManager` handle cooldown behavior without duplicating the same logic across commands.
+* **Cosmetics system:** Dedicated GUI components manage menu creation, item presentation, navigation, and movement trail selection.
+* **Movement particles:** A movement listener detects player movement and jumping to emit the selected particle effect.
 * **Centralized feedback:** `MessageService` and `PlayerFeedbackService` manage configurable messages, MiniMessage formatting, and reusable sound presets.
-* **Configuration:** Command cooldown durations and player-facing messages can be customized through `config.yml`.
-
+* **Configuration:** Command cooldowns, player-facing messages, and cosmetics GUI text can be customized through `config.yml`.
 
 ## Disclaimer
 HavenMine is an unofficial community project. It is not an official Minecraft product and is not
