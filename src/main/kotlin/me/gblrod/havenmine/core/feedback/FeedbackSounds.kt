@@ -18,4 +18,19 @@ object FeedbackSounds {
         sound = Sound.BLOCK_COMPARATOR_CLICK,
         pitch = 0.5f
     )
+
+    val EQUIPPED = FeedbackSound(
+        sound = Sound.BLOCK_NOTE_BLOCK_PLING,
+        pitch = 2f
+    )
+
+    val OPEN_MENU = FeedbackSound(
+        sound = Sound.BLOCK_NOTE_BLOCK_PLING,
+        pitch = 1f
+    )
+
+    val CLOSE_MENU = FeedbackSound(
+        sound = Sound.BLOCK_GRAVEL_BREAK,
+        pitch = 1f
+    )
 }

@@ -7,4 +7,5 @@ object CommandsName {
     const val LIGHT_COMMAND = "light"
     const val LINKEDIN_COMMAND = "linkedin"
     const val GITHUB_COMMAND = "github"
+    const val COSMETICS_COMMAND = "cosmetics"
 }
