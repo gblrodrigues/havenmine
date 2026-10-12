@@ -1,7 +1,54 @@
 cooldowns:
   default_seconds: 300
 
+cosmetics:
+  menus:
+    main:
+      title: "<dark_gray>Cosméticos"
+      no_selection: "<red>Nenhum"
+
+      movement_trails:
+        title: "<dark_gray>Rastros de Movimentos"
+        name: "<green>Rastros de Movimentos"
+        lore:
+          - "<yellow><qtd_unlocked></yellow><gray>/</gray><green><total></green> <dark_gray>(<percent_unlocked>%)</dark_gray>"
+          - ""
+          - "<gray>Partículas que o acompanharão"
+          - "<gray>durante sua movimentação."
+          - ""
+          - "<gray>Selecionado: <selected>"
+          - ""
+          - "<yellow>Clique para abrir"
+
+    movement_trails:
+      title: "<dark_gray>Rastros de Movimentos"
+      action_selected: "<red>Clique para remover."
+      action_unselected: "<yellow>Clique para selecionar."
+
+      lore:
+        - "<dark_gray>Rastro de Movimento"
+        - ""
+        - "<gray>Selecione o rastro de <trail_description><gray>.</gray>"
+        - ""
+        - "<action>"
+
+      fire:
+        name: "<#FF4500>Fire</#FF4500>"
+        description: "<#FF4500>Fogo</#FF4500>"
+
+      magic:
+        name: "<#AA00FF>Magic</#AA00FF>"
+        description: "<#AA00FF>Mágico</#AA00FF>"
+
+    close_menu:
+      name: "<red>Sair</red>"
+      lore:
+        - "<gray>Clique para sair.</gray>"
+
 messages:
+  cosmetic_equipped: "<aqua><b>COSMETIC!</b></aqua> <yellow>Você equipou <green>%cosmetic%</green> com sucesso!</yellow>"
+  cosmetic_removed: "<aqua><b>COSMETIC!</b></aqua> <yellow>Você removeu <red>%cosmetic%</red> com sucesso!</yellow>"
+
   light_enabled: "<aqua><b>LIGHT!</b></aqua> <yellow>Luz <green>ativada</green> com sucesso.</yellow>"
   light_disabled: "<aqua><b>LIGHT!</b></aqua> <yellow>Luz <red>desativada</red> com sucesso.</yellow>"
 
@@ -11,7 +58,7 @@ messages:
   food_enabled: "<aqua><b>FOOD!</b></aqua> <yellow>Fome <green>restaurada</green> com sucesso.</yellow>"
   food_error: "<aqua><b>FOOD!</b></aqua> <red>Você já está saciado.</red>"
 
-  command_cooldown: "<red><b>ERROR!</b> Aguarde %time% para utilizar este comando novamente.</red>"
+  command_cooldown: "<red><b>ERROR!</b> Aguarde <yellow>%time%</yellow> para utilizar este comando novamente.</red>"
 
   invalid_game_mode: "<red><b>ERROR!</b> Comando indisponível para este modo de jogo.</red>"
   command_player_only: "<red><b>ERROR!</b> Este comando só pode ser usado por um jogador.</red>"

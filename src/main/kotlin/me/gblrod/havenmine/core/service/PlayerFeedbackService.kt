@@ -9,17 +9,19 @@ class PlayerFeedbackService(
 ) {
     fun send(
         sender: CommandSender,
-        messageKey: String,
+        messageKey: String? = null,
         sound: FeedbackSound? = null,
         placeholders: Map<String, String> = emptyMap()
     ) {
-        val message = if (placeholders.isEmpty()) {
-            messageService.get(messageKey)
-        } else {
-            messageService.get(path = messageKey, placeholders = placeholders)
-        }
+        if (messageKey != null) {
+            val message = if (placeholders.isEmpty()) {
+                messageService.get(messageKey)
+            } else {
+                messageService.get(path = messageKey, placeholders = placeholders)
+            }
 
-        sender.sendMessage(message)
+            sender.sendMessage(message)
+        }
 
         if (sender is Player) {
             sound?.let {
