@@ -1,3 +1,14 @@
+# Local SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+
+# SQLite temporary files
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+
 .gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
