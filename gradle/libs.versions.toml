@@ -2,9 +2,11 @@
 kotlin = "2.4.20"
 paper = "26.3.build.159-beta"
 shadow = "9.6.1"
+sqlite = "3.53.4.0"
 
 [libraries]
 paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite" }
 
 [plugins]
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

@@ -100,6 +100,5 @@ class MovementParticleListener(
     @EventHandler
     fun onPlayerQuit(event: PlayerQuitEvent) {
         jumpStates.remove(event.player.uniqueId)
-        movementTrailService.clear(event.player)
     }
 }

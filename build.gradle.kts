@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     compileOnly(libs.paper.api)
+    implementation(libs.sqlite.jdbc)
 
     testImplementation(kotlin("test"))
 }
@@ -34,6 +35,14 @@ kotlin {
 java {
     sourceCompatibility = JavaVersion.VERSION_25
     targetCompatibility = JavaVersion.VERSION_25
+}
+
+tasks.shadowJar {
+    mergeServiceFiles()
+
+    filesMatching("META-INF/services/**") {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
 }
 
 tasks.test {

@@ -38,7 +38,27 @@ cosmetics:
 
       magic:
         name: "<#AA00FF>Magic</#AA00FF>"
-        description: "<#AA00FF>Mágico</#AA00FF>"
+        description: "<#AA00FF>Magia</#AA00FF>"
+
+      stardust:
+        name: "<#C9F3FF>Stardust</#C9F3FF>"
+        description: "<#C9F3FF>Estelar</#C9F3FF>"
+
+      frost:
+        name: "<#55D6FF>Frost</#55D6FF>"
+        description: "<#B8F0FF>Gelo</#B8F0FF>"
+
+      cherry:
+        name: "<#FF78B7>Blossom</#FF78B7>"
+        description: "<#FFB7D9>Floral</#FFB7D9>"
+
+      nature:
+        name: "<#55E68A>Nature</#55E68A>"
+        description: "<#A4F5BD>Natureza</#A4F5BD>"
+
+      cloud:
+        name: "<#D6E4F0>Nimbus</#D6E4F0>"
+        description: "<#EEF6FF>Nuvem</#EEF6FF>"
 
     close_menu:
       name: "<red>Sair</red>"

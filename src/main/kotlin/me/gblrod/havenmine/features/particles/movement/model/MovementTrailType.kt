@@ -23,5 +23,40 @@ enum class MovementTrailType(
         particle = Particle.WITCH,
         icon = Material.AMETHYST_SHARD,
         menuSlot = 11
+    ),
+    STARDUST(
+        menuSlot = 12,
+        configKey = "stardust",
+        displayName = "Stardust",
+        particle = Particle.END_ROD,
+        icon = Material.END_ROD
+    ),
+    FROST(
+        menuSlot = 13,
+        configKey = "frost",
+        displayName = "Frost",
+        particle = Particle.SNOWFLAKE,
+        icon = Material.SNOWBALL
+    ),
+    CHERRY(
+        menuSlot = 14,
+        configKey = "cherry",
+        displayName = "Blossom",
+        particle = Particle.CHERRY_LEAVES,
+        icon = Material.CHERRY_SAPLING
+    ),
+    NATURE(
+        menuSlot = 15,
+        configKey = "nature",
+        displayName = "Nature",
+        particle = Particle.HAPPY_VILLAGER,
+        icon = Material.EMERALD
+    ),
+    CLOUD(
+        menuSlot = 16,
+        configKey = "cloud",
+        displayName = "Nimbus",
+        particle = Particle.CLOUD,
+        icon = Material.WHITE_WOOL
     )
 }
