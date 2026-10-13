@@ -16,10 +16,20 @@ repositories {
 }
 
 dependencies {
+    // Minecraft API
     compileOnly(libs.paper.api)
+
+    // Database
     implementation(libs.sqlite.jdbc)
 
+    // Tests
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockk)
     testImplementation(kotlin("test"))
+    testImplementation(libs.paper.api)
+
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 kotlin {
