@@ -29,12 +29,14 @@ This is a personal hobby and portfolio project currently under development.
 * **Persistent selections:** Equipped movement trails are stored in SQLite and restored when players rejoin or the server restarts.
 
 ### Utility Commands
-| Command   | Description                                                                    |
-|-----------|--------------------------------------------------------------------------------|
-| `/food`   | Restores hunger, saturation, and exhaustion.                                   |
-| `/health` | Restores the player's health.                                                  |
-| `/craft`  | Opens a virtual crafting table.                                                |
-| `/light`  | Toggles night vision. The effect can be disabled while its cooldown is active. |
+| Command   | Description                                                                              |
+|----------------|-------------------------------------------------------------------------------------|
+| `/food`        | Restores hunger, saturation, and exhaustion.                                        |
+| `/health`      | Restores the player's health.                                                       |
+| `/craft`       | Opens a virtual crafting table.                                                     |
+| `/light`       | Toggles night vision. The effect can be disabled while its cooldown is active.      |
+| `/anvil`       | Open an Anvil interface                                                             |  
+| `/enderchest`  | Open an Enderchest interface                                                        |
 
 Hunger and health commands are restricted to Survival and Adventure modes. The light command is available in all game modes.
 
