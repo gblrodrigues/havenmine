@@ -8,4 +8,6 @@ object CommandsName {
     const val LINKEDIN_COMMAND = "linkedin"
     const val GITHUB_COMMAND = "github"
     const val COSMETICS_COMMAND = "cosmetics"
+    const val ENDERCHEST_COMMAND = "enderchest"
+    const val ANVIL_COMMAND = "anvil"
 }

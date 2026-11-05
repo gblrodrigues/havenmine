@@ -2,9 +2,11 @@ package me.gblrod.havenmine.core.bootstrap
 
 import me.gblrod.havenmine.core.command.CommandsName
 import me.gblrod.havenmine.core.service.PlayerFeedbackService
+import me.gblrod.havenmine.features.anvil.command.AnvilCommand
 import me.gblrod.havenmine.features.cosmetics.command.CosmeticsCommand
 import me.gblrod.havenmine.features.cosmetics.gui.CosmeticsMenuService
 import me.gblrod.havenmine.features.craft.command.CraftCommand
+import me.gblrod.havenmine.features.enderchest.command.EnderchestCommand
 import me.gblrod.havenmine.features.food.command.FoodCommand
 import me.gblrod.havenmine.features.health.command.HealthCommand
 import me.gblrod.havenmine.features.light.command.LightCommand
@@ -26,7 +28,9 @@ class CommandRegister(
             CommandsName.LIGHT_COMMAND,
             CommandsName.LINKEDIN_COMMAND,
             CommandsName.GITHUB_COMMAND,
-            CommandsName.COSMETICS_COMMAND
+            CommandsName.COSMETICS_COMMAND,
+            CommandsName.ENDERCHEST_COMMAND,
+            CommandsName.ANVIL_COMMAND
         )
 
         val commands = commandNames.mapNotNull { name ->
@@ -56,6 +60,14 @@ class CommandRegister(
 
         commands.getValue(CommandsName.CRAFT_COMMAND).setExecutor(
             CraftCommand(playerFeedbackService = playerFeedbackService)
+        )
+
+        commands.getValue(CommandsName.ENDERCHEST_COMMAND).setExecutor(
+            EnderchestCommand(playerFeedbackService = playerFeedbackService)
+        )
+
+        commands.getValue(CommandsName.ANVIL_COMMAND).setExecutor(
+            AnvilCommand(playerFeedbackService = playerFeedbackService)
         )
 
         commands.getValue(CommandsName.LIGHT_COMMAND).setExecutor(

@@ -38,3 +38,14 @@ commands:
     description: Open the menu of cosmetics
     aliases:
       - cosmeticos
+
+  enderchest:
+    description: Open an Enderchest interface
+    aliases:
+      - ec
+      - echest
+
+  anvil:
+    description: Open an Anvil interface
+    aliases:
+      - bigorna
